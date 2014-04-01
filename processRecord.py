@@ -39,6 +39,7 @@ for line1 in f1:
     db.commit()
     list1.append(employee),
 f1.close
+
 cursor.execute('''select name,code from employee''')
 all_rows = cursor.fetchall()
 for row in all_rows:
@@ -55,8 +56,8 @@ class Record:
 
 f2=open('r.txt','r+')
 list2=[]
-#cursor.execute('''CREATE TABLE record(code TEXT,name TEXT,date TEXT,time TEXT)''')
-#db.commit()
+cursor.execute('''CREATE TABLE record(code TEXT,name TEXT,date TEXT,time TEXT)''')
+db.commit()
 cursor.execute('''delete from record where 1=1''')
 db.commit()
 for line2 in f2:
@@ -86,7 +87,9 @@ all_rows = cursor.fetchall()
 for row in all_rows:
    print row[0]
    list3.append(row[0])
-   print(record.time)
+   for record in list2:
+       if record.name==row[0]:
+           print(record.time)
 
 
 for record in list2:
