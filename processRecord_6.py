@@ -52,7 +52,6 @@ except NameError:
     reg = 'reg.txt'
 else:
     reg = sys.argv[2]
-
 class Record:
     def __init__(self,code=None,date=None,time=None,name=None):
         self.code=code
@@ -188,7 +187,7 @@ for employee in list1:
         l_end = ltime[1]
         #print l_start
         #print "\n",
- 
+   
     if time.strptime(m_start,"%H:%M:%S")>time.strptime(s1_start,"%H:%M:%S") or time.strptime(m_start,"%H:%M:%S")>time.strptime(l_start,"%H:%M:%S"):
         print "\n",
     else:
@@ -218,36 +217,7 @@ for employee in list1:
                 out.write(employee.name+", you have no record on "+today+" in 30 minutes after morning ends\n")
                 list3.append(employee),
 
-    if (time.strptime(n_start,"%H:%M:%S")>time.strptime(s1_start,"%H:%M:%S") and time.strptime(n_start,"%H:%M:%S")<time.strptime(s1_end,"%H:%M:%S")) or (time.strptime(n_start,"%H:%M:%S")>time.strptime(s2_start,"%H:%M:%S") and time.strptime(n_start,"%H:%M:%S")<time.strptime(s2_end,"%H:%M:%S")) or (time.strptime(n_start,"%H:%M:%S")>time.strptime(l_start,"%H:%M:%S") and time.strptime(n_start,"%H:%M:%S")<time.strptime(l_end,"%H:%M:%S")):
-        print "\n",
-    else:
-        all_rows =cursor.execute('''select rec.name from record rec,regular reg where rec.code=reg.code
-                        and (time(time) between time(reg.start_time,'-30 Minute') and  time(reg.start_time))
-                        and reg.type='n' and rec.name=? ''',(name,))
-        if cursor.fetchone() is None:
-            if employee in list3:
-                 print(", no record on "+today+" in 30 minutes before afternoon starts\n")
-                 out.write(", no record on "+today+" in 30 minutes before afternoon starts\n"),
-            else:
-                print(employee.name+", you have no record on "+today+" in 30 minutes before afternoon starts\n")
-                out.write(employee.name+", you have no record on "+today+" in 30 minutes before afternoon starts\n")
-                list3.append(employee),
-
-
-    if (time.strptime(n_end,"%H:%M:%S")<time.strptime(s1_end,"%H:%M:%S")) or (time.strptime(n_end,"%H:%M:%S")<time.strptime(s2_end,"%H:%M:%S")) or (time.strptime(n_end,"%H:%M:%S")<time.strptime(l_end,"%H:%M:%S")):
-        print "\n",
-    else:
-        all_rows =cursor.execute('''select rec.name from record rec,regular reg where rec.code=reg.code
-                        and (time(time) between time(reg.end_time) and  time(reg.end_time,'+30 Minute'))
-                        and reg.type='n' and rec.name=? ''',(name,))
-        if cursor.fetchone() is None:
-            if employee in list3:
-                 print(", no record on "+today+" in 30 minutes after afternoon ends\n")
-                 out.write(", no record on "+today+" in 30 minutes after afternoon ends\n"),
-            else:
-                print(employee.name+", you have no record on "+today+" in 30 minutes after afternoon ends\n")
-                out.write(employee.name+", you have no record on "+today+" in 30 minutes after afternoon ends\n")
-                list3.append(employee),
+   
 
     if employee in list3:
         
@@ -307,18 +277,9 @@ for employee in list1:
                         if  ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s2_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s2_end,"%H:%M:%S") ) ):
                            if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(l_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(l_end,"%H:%M:%S") ) ):
                                 out.write(" have record in the morning during working time\n")
-                                print " have record in the morning during working time\n",
-                if  ( (time.strptime(record.time,"%H:%M:%S")>time.strptime(n_start,"%H:%M:%S") ) and ( time.strptime(record.time,"%H:%M:%S") < time.strptime(n_end,"%H:%M:%S") ) ):
-                    if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s1_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s1_end,"%H:%M:%S") ) ):
-                        if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s2_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s2_end,"%H:%M:%S") ) ):
-                            if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(l_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(l_end,"%H:%M:%S") ) ):
-                                out.write(" have record in the afternoon during working time\n")
-                                print " have record in the afternoon during working time\n",
-                    
+                                print " have record in the morning during working time\n"
                 out.write(str(record))
                 print record
-                
-
 out.close()
 db.close()
 
