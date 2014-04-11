@@ -284,12 +284,15 @@ for employee in list1:
                            if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(l_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(l_end,"%H:%M:%S") ) ):
                                 #out.write(" have record in the morning during working time\n")
                                 print " have record in the morning during working time\n",
+                print record
+                out.write(str(record))
+                """
                 if ( (time.strptime(record.time,"%H:%M:%S")>time.strptime("07:30:00","%H:%M:%S") ) and ( time.strptime(record.time,"%H:%M:%S") < time.strptime("12:30:00","%H:%M:%S") ) ):
                     count=count+1
                     out.write(str(record))
-                    print record
         if count==0:       
             out.write(employee.name+"\n")
+            """
 out.close()
 db.close()
 
