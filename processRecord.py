@@ -60,7 +60,7 @@ class Record:
         self.time=time
         self.name=name
     def __str__(self):
-        return '[%s]->[%s]->[%s]->[%s]\n' % (self.code,self.date,self.time,self.name)
+        return '%s\t%s\t%s\n' % (self.name,self.date,self.time)
 
 f2=open('r.txt','r+')
 list2=[]
@@ -109,6 +109,12 @@ for employee in list1:
     cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(employee.code,employee.name,'08:00:00','12:00:00','m'))
     db.commit()
     cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(employee.code,employee.name,'13:30:00','17:30:00','n'))
+    db.commit()
+    cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(employee.code,employee.name,'21:00:00','06:00:00','s1'))
+    db.commit()
+    cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(employee.code,employee.name,'21:00:00','06:00:00','s2'))
+    db.commit()
+    cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(employee.code,employee.name,'21:00:00','06:00:00','l'))
     db.commit(),
 cursor.execute('''select name,code,start_time,end_time,type from regular''')
 all_rows = cursor.fetchall()
@@ -198,10 +204,10 @@ for employee in list1:
         if cursor.fetchone() is None:
             if employee  in list3:
                 print(",  no record on "+today+" in 30 minutes before morning starts\n")
-                out.write(",  no record on "+today+" in 30 minutes before morning starts\n"),
+                #out.write(",  no record on "+today+" in 30 minutes before morning starts\n"),
             else:
                 print(employee.name+", you have no record on "+today+" in 30 minutes before morning starts\n")
-                out.write(employee.name+",you have  no record on "+today+" in 30 minutes before morning starts\n")
+                #out.write(employee.name+",you have  no record on "+today+" in 30 minutes before morning starts\n")
                 list3.append(employee),
     if (time.strptime(m_end,"%H:%M:%S")>time.strptime(s1_start,"%H:%M:%S") and time.strptime(m_end,"%H:%M:%S")<time.strptime(s1_end,"%H:%M:%S")) or (time.strptime(m_end,"%H:%M:%S")>time.strptime(s2_start,"%H:%M:%S") and time.strptime(m_end,"%H:%M:%S")<time.strptime(s2_end,"%H:%M:%S")) or (time.strptime(m_end,"%H:%M:%S")>time.strptime(l_start,"%H:%M:%S") and time.strptime(m_end,"%H:%M:%S")<time.strptime(l_end,"%H:%M:%S")):
         print "\n",
@@ -212,10 +218,10 @@ for employee in list1:
         if cursor.fetchone() is None:
             if employee  in list3:
                  print(",  no record on "+today+" in 30 minutes after morning ends\n")
-                 out.write(", no record on "+today+" in 30 minutes after morning ends\n"),
+                 #out.write(", no record on "+today+" in 30 minutes after morning ends\n"),
             else:
                 print(employee.name+", you have no record on "+today+" in 30 minutes after morning ends\n")
-                out.write(employee.name+", you have no record on "+today+" in 30 minutes after morning ends\n")
+                #out.write(employee.name+", you have no record on "+today+" in 30 minutes after morning ends\n")
                 list3.append(employee),
 
     if (time.strptime(n_start,"%H:%M:%S")>time.strptime(s1_start,"%H:%M:%S") and time.strptime(n_start,"%H:%M:%S")<time.strptime(s1_end,"%H:%M:%S")) or (time.strptime(n_start,"%H:%M:%S")>time.strptime(s2_start,"%H:%M:%S") and time.strptime(n_start,"%H:%M:%S")<time.strptime(s2_end,"%H:%M:%S")) or (time.strptime(n_start,"%H:%M:%S")>time.strptime(l_start,"%H:%M:%S") and time.strptime(n_start,"%H:%M:%S")<time.strptime(l_end,"%H:%M:%S")):
@@ -227,10 +233,10 @@ for employee in list1:
         if cursor.fetchone() is None:
             if employee in list3:
                  print(", no record on "+today+" in 30 minutes before afternoon starts\n")
-                 out.write(", no record on "+today+" in 30 minutes before afternoon starts\n"),
+                 #out.write(", no record on "+today+" in 30 minutes before afternoon starts\n"),
             else:
                 print(employee.name+", you have no record on "+today+" in 30 minutes before afternoon starts\n")
-                out.write(employee.name+", you have no record on "+today+" in 30 minutes before afternoon starts\n")
+                #out.write(employee.name+", you have no record on "+today+" in 30 minutes before afternoon starts\n")
                 list3.append(employee),
 
 
@@ -243,14 +249,14 @@ for employee in list1:
         if cursor.fetchone() is None:
             if employee in list3:
                  print(", no record on "+today+" in 30 minutes after afternoon ends\n")
-                 out.write(", no record on "+today+" in 30 minutes after afternoon ends\n"),
+                 #out.write(", no record on "+today+" in 30 minutes after afternoon ends\n"),
             else:
                 print(employee.name+", you have no record on "+today+" in 30 minutes after afternoon ends\n")
-                out.write(employee.name+", you have no record on "+today+" in 30 minutes after afternoon ends\n")
+                #out.write(employee.name+", you have no record on "+today+" in 30 minutes after afternoon ends\n")
                 list3.append(employee),
 
     if employee in list3:
-        
+        count=0
         for record in list2:
             if record.name==employee.name:
                 name= employee.name
@@ -306,18 +312,22 @@ for employee in list1:
                     if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s1_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s1_end,"%H:%M:%S") ) ):
                         if  ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s2_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s2_end,"%H:%M:%S") ) ):
                            if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(l_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(l_end,"%H:%M:%S") ) ):
-                                out.write(" have record in the morning during working time\n")
+                                #out.write(" have record in the morning during working time\n")
                                 print " have record in the morning during working time\n",
                 if  ( (time.strptime(record.time,"%H:%M:%S")>time.strptime(n_start,"%H:%M:%S") ) and ( time.strptime(record.time,"%H:%M:%S") < time.strptime(n_end,"%H:%M:%S") ) ):
                     if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s1_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s1_end,"%H:%M:%S") ) ):
                         if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(s2_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(s2_end,"%H:%M:%S") ) ):
                             if ( (time.strptime(record.time,"%H:%M:%S")<time.strptime(l_start,"%H:%M:%S") ) or ( time.strptime(record.time,"%H:%M:%S") > time.strptime(l_end,"%H:%M:%S") ) ):
-                                out.write(" have record in the afternoon during working time\n")
+                                #out.write(" have record in the afternoon during working time\n")
                                 print " have record in the afternoon during working time\n",
                     
-                out.write(str(record))
-                print record
-                
+                if ( (time.strptime(record.time,"%H:%M:%S")>time.strptime("07:30:00","%H:%M:%S") ) and ( time.strptime(record.time,"%H:%M:%S") < time.strptime("12:30:00","%H:%M:%S") ) ):
+                    if not ( (time.strptime(record.time,"%H:%M:%S")>time.strptime("13:00:00","%H:%M:%S") ) and ( time.strptime(record.time,"%H:%M:%S") < time.strptime("18:00:00","%H:%M:%S") ) ):
+                        count=count+1
+                        out.write(str(record))
+                        print record
+        if count==0:       
+            out.write(employee.name+"\n")
 
 out.close()
 db.close()
