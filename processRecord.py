@@ -102,6 +102,7 @@ cursor.execute('''CREATE TABLE regular(code TEXT,name TEXT,start_time TEXT,
   end_time TEXT,type TEXT)''')
 db.commit()
 
+"""
 
 cursor.execute('''delete from regular where 1=1''')
 db.commit()
@@ -116,6 +117,7 @@ for employee in list1:
     db.commit()
     cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(employee.code,employee.name,'21:00:00','06:00:00','l'))
     db.commit(),
+"""
 cursor.execute('''select name,code,start_time,end_time,type from regular''')
 all_rows = cursor.fetchall()
 for row in all_rows:
@@ -125,18 +127,21 @@ for row in all_rows:
 f3=open(reg,'r+')
 
 for line3 in f3:
-    a = line3.split()
-    #print line3
-    name = ""
-    for employee in list1:
-        if employee.name==a[0]:
-            code=employee.code
-            cursor.execute('''delete from regular where code=? and type=?''',(code,a[3]))
-            db.commit()
-            cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(code,a[0],a[1],a[2],a[3]))
-            db.commit(),
-            break
-    regular=Regular(code,a[0],a[1],a[2],a[3])
+    if line3 in ['\n', '\r\n']:
+        print "haha"
+    else:
+        a = line3.split()
+        #print line3
+        name = ""
+        for employee in list1:
+            if employee.name==a[0]:
+                code=employee.code
+                cursor.execute('''delete from regular where code=? and type=?''',(code,a[3]))
+                db.commit()
+                cursor.execute('''Insert into regular(code,name,start_time,end_time,type) values (?,?,?,?,?)''',(code,a[0],a[1],a[2],a[3]))
+                db.commit(),
+                break
+        regular=Regular(code,a[0],a[1],a[2],a[3])
 
     #print regular
 
